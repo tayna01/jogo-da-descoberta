@@ -30,12 +30,13 @@ public class Main {
 
             if (entrada.equals("dica")) {
                 System.out.println("A primeira letra é '" + palavraSelecionada.charAt(0) + "' e a última é '" + palavraSelecionada.charAt(palavraSelecionada.length() - 1) + "' .");
-                continue;  // Corrigido para continuar o loop após mostrar a dica
+                continue;
             }
 
             if(entrada.equals(palavraSelecionada)){
                 tentativas++;
                 System.out.println("Você acertou com " + tentativas + " tentativas");
+                acertou = true;
             }
             else{
                 tentativas++;
