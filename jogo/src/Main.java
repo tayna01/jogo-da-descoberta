@@ -3,55 +3,69 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
 
         System.out.println("Bem-vindo ao Jogo da Descoberta!");
-        Scanner scanner = new Scanner(System.in);
 
-        String palavras[] = {"computador"," mouse", "monitor"};
-        Random random = new Random();
-        String palavraSelecionada = palavras[random.nextInt(palavras.length)];
+        String[] palavras = {"computador", "mouse", "monitor", "mousepad", "teclado", "impressora",
+                "programação", "engenharia", "desenvolvedor", "software", "hardware",
+                "inteligência", "dados", "rede", "memória"};
 
-        String palavraEmbaralhada = embaralhar(palavraSelecionada);
+        boolean jogarNovamente = true;
 
-        System.out.println("Qual a palavra " + palavraEmbaralhada + "?");
-        int tentativas = 0;
-        Boolean acertou = false;
-        //Fazer um while scanner paraler a entrada do usuário
+        while (jogarNovamente) {
+            String palavraSelecionada = palavras[random.nextInt(palavras.length)];
+            String palavraEmbaralhada = embaralhar(palavraSelecionada);
 
-        while(!acertou){
-            System.out.println("Informe a palavra, 'dica' para receber uma dica ou '0' para desistir");
+            System.out.println("\nQual é a palavra: " + palavraEmbaralhada + "?");
+            int tentativas = 0;
+            boolean acertou = false;
 
-            String entrada = scanner.nextLine();
+            while (!acertou) {
+                System.out.println("Informe a palavra, 'dica' para receber uma dica ou '0' para desistir:");
+                String entrada = scanner.nextLine().trim();
 
-            if(entrada.equals("0")){
-                System.out.println("Você é fraco, desistiu com " + tentativas + " tentativas.");
-                break;
-            }
+                if (entrada.equals("0")) {
+                    System.out.println("Você desistiu após " + tentativas + " tentativas.");
+                    break;
+                }
 
-            if (entrada.equals("dica")) {
-                System.out.println("A primeira letra é '" + palavraSelecionada.charAt(0) + "' e a última é '" + palavraSelecionada.charAt(palavraSelecionada.length() - 1) + "' .");
-                continue;
-            }
+                if (entrada.equalsIgnoreCase("dica")) {
+                    System.out.println("Dica: A primeira letra é '" + palavraSelecionada.charAt(0) +
+                            "' e a última é '" + palavraSelecionada.charAt(palavraSelecionada.length() - 1) + "'.");
+                    continue;
+                }
 
-            if(entrada.equals(palavraSelecionada)){
                 tentativas++;
-                System.out.println("Você acertou com " + tentativas + " tentativas");
-                acertou = true;
+
+                if (entrada.equalsIgnoreCase(palavraSelecionada)) {
+                    System.out.println("Parabéns! Você acertou com " + tentativas + " tentativas.");
+                    acertou = true;
+                } else {
+                    System.out.println("Errado! Tente novamente.");
+                }
             }
-            else{
-                tentativas++;
+
+            System.out.println("\nDeseja jogar novamente? (s/n)");
+            String resposta = scanner.nextLine().trim().toLowerCase();
+            if (!resposta.equals("s")) {
+                jogarNovamente = false;
             }
         }
+
+        System.out.println("Obrigado por jogar! Até a próxima.");
+        scanner.close();
     }
 
-    private static String embaralhar(String palavra){
-        char[] palavraArray =  palavra.toCharArray();
+    private static String embaralhar(String palavra) {
+        char[] palavraArray = palavra.toCharArray();
         Random random = new Random();
-        for(int x=0; x < palavraArray.length; x++) {
-            int indiceAleatorio = random.nextInt(palavraArray.length - 1);
 
-            char temp = palavraArray[x];
-            palavraArray[x] = palavraArray[indiceAleatorio];
+        for (int i = 0; i < palavraArray.length; i++) {
+            int indiceAleatorio = random.nextInt(palavraArray.length);
+            char temp = palavraArray[i];
+            palavraArray[i] = palavraArray[indiceAleatorio];
             palavraArray[indiceAleatorio] = temp;
         }
 
